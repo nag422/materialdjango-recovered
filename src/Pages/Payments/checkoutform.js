@@ -11,7 +11,7 @@ import {
 } from "@stripe/react-stripe-js";
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
-import { Box, LinearProgress } from '@material-ui/core';
+import { Box, Button, LinearProgress } from '@material-ui/core';
 import { NavLink, useHistory  } from 'react-router-dom';
 
 // You can customize your Elements to give it the look and feel of your site.
@@ -64,7 +64,7 @@ const CheckoutForm = ({ success, ...rest }) => {
           await axios.get("https://app.kiranvoleti.com/cancel/",config);
           setProcess(false);
           setPaymentfail(true);
-          setTimeout(function(){ return history.push('/pricing'); }, 2000);
+          // setTimeout(function(){ return history.push('/pricing'); }, 2000);
           
         }
       }
@@ -92,14 +92,14 @@ const CheckoutForm = ({ success, ...rest }) => {
       <form
         onSubmit={handleSubmit}
         className="checkoutForm"
-        style={{ maxWidth: "500px", margin: "0 auto",
-        backgroundColor:"#fff",padding:'5%',minHeight:'100vh',
-        alignContent:'center',paddingTop:'15vh',        
-        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-        transition: '0.3s'
+    //     style={{ maxWidth: "500px", margin: "0 auto",
+    //     backgroundColor:"#fff",padding:'5%',minHeight:'100vh',
+    //     alignContent:'center',paddingTop:'15vh',        
+    //     boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+    //     transition: '0.3s'
          
     
-    }}
+    // }}
         
       >
         <h3 style={{color:'red'}}>{logincondition ? 'Payment Process':<a href="/login">Please Login</a>}</h3>
@@ -116,12 +116,10 @@ const CheckoutForm = ({ success, ...rest }) => {
         
         <CardElement />
         {logincondition ? 
-        <button type="submit" disabled={!stripe}>
+        <Button type="submit" disabled={!stripe} style={{display:"block"}} fullWidth>
           Pay
-        </button>:null}
-        <Box style={{paddingTop:'100px',float:'right'}}>
-          <NavLink to="/pricing"> Back </NavLink>
-        </Box>
+        </Button>:null}
+        
         
         
       </form>

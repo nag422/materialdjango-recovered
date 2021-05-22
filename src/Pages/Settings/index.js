@@ -15,14 +15,14 @@ const index = () => {
         >
           <Subscription className="subscriptclass" />
         </Grid>
-
+        <br></br>
         <Grid
           item
           xs={12}
         >
           <Notifications className="notifyclass" />
         </Grid>
-
+<br></br>
         <Grid
           item
           xs={12}

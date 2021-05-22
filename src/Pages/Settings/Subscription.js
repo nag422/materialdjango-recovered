@@ -13,11 +13,13 @@ import {
   CardHeader,
   Paper,
   Grid,
-  makeStyles
+  makeStyles,
+ 
 } from '@material-ui/core';
 import GroupIcon from '@material-ui/icons/Group';
 import { NavLink } from 'react-router-dom';
 import Moment from 'react-moment';
+import Transactions from './Transactions';
 const useStyles = makeStyles(() => ({
     root: {},
     avatar: {
@@ -34,6 +36,8 @@ const useStyles = makeStyles(() => ({
 
 const Subscription = ({ className, ...rest }) => {
     const classes = useStyles();
+
+   
     return (
         <>
         <Card
@@ -79,6 +83,8 @@ const Subscription = ({ className, ...rest }) => {
 
             </Box>
 
+            
+
             </Paper>
 
             </CardContent>
@@ -86,6 +92,10 @@ const Subscription = ({ className, ...rest }) => {
             
 
           </Card>
+
+         <Transactions />
+
+
           <Box display="flex" mt={3} justifyContent="flex-end">
             <NavLink to="/pricing">
           <Button variant="contained" color="primary">

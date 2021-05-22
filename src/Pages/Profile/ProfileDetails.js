@@ -13,6 +13,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import axios from 'axios';
+import Alert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles(() => ({
@@ -21,6 +22,12 @@ const useStyles = makeStyles(() => ({
 
 const ProfileDetails = ({ className,user,setsnakreq,snakreq,open, ...rest }) => {
   const classes = useStyles();
+  const [alertobject,setAlertobject] =  React.useState({
+    sever:'',
+    isopen:false,
+    message:''
+  })
+
   const [values, setValues] = React.useState({
     first_name:"",
     last_name:"",
@@ -49,19 +56,51 @@ const ProfileDetails = ({ className,user,setsnakreq,snakreq,open, ...rest }) => 
   };
 
   const handleOnClick = (event) => {
+    event.preventDefault()
+    console.log('email',values.email)
+    if (values.email == ""){
+      return setAlertobject({
+        ...alertobject,
+        sever:'error',
+        isopen:true,
+        message:'Email is should not empty'
+
+      })
+      
+      
+    }
+    else if (values.first_name == ""){
+      return setAlertobject({
+        ...alertobject,
+        sever:'error',
+        isopen:true,
+        message:'Firstname is should not empty'
+
+      })
+    }
+    else if (values.last_name == ""){
+      return setAlertobject({
+        ...alertobject,
+        sever:'error',
+        isopen:true,
+        message:'Last_name is should not empty'
+
+      })
+    }
+    
     const config = {
       headers: {
           'Content-Type': 'application/json',
           'Authorization': `JWT ${localStorage.getItem('access')}`,
           'Accept': 'application/json'
       }
-  };
+    };
     
     const body = new FormData();
     body.append('id',localStorage.getItem('userid'));
     body.append('first_name',values.first_name);
     body.append('last_name',values.last_name);
-    body.append('phone',values.phone);
+    body.append('phone',values.phone);    
     body.append('email',values.email);
     
     axios.post(`https://app.kiranvoleti.com/testing/checkfun/`,body, config)
@@ -70,26 +109,37 @@ const ProfileDetails = ({ className,user,setsnakreq,snakreq,open, ...rest }) => 
 
       
       if(res.data.response ==="success"){
-        setsnakreq({...snakreq,
-          message:"Successfully Updated !!",
-          color:"success"});
+        return setAlertobject({
+          ...alertobject,
+          sever:'success',
+          isopen:true,
+          message:'Successfully Updated'
+  
+        })
 
       }else{
-        setsnakreq({...snakreq,
-          message:"Something Went Wrong !!",
-          color:"error"});          
+        return setAlertobject({
+          ...alertobject,
+          sever:'error',
+          isopen:true,
+          message:'Something is went wrong!'
+  
+        })         
 
       }
       
-        open(true)
+        
 
       
     })
     .catch(e => {
-      setsnakreq({...snakreq,
-        message:"Something Went Wrong !!",
-        color:"error"});
-        open(true)
+      return setAlertobject({
+        ...alertobject,
+        sever:'error',
+        isopen:true,
+        message:'Badrequest! please check your data.'
+
+      })
 
     })
   }
@@ -101,6 +151,7 @@ const ProfileDetails = ({ className,user,setsnakreq,snakreq,open, ...rest }) => 
       autoComplete="off"
       noValidate
       className={clsx(classes.root, className)}
+      onSubmit={handleOnClick}
       {...rest}
     >
       <Card>
@@ -109,6 +160,9 @@ const ProfileDetails = ({ className,user,setsnakreq,snakreq,open, ...rest }) => 
           title="Profile"
         />
         <Divider />
+        {alertobject.isopen &&
+                <Alert severity={alertobject.sever}>{alertobject.message}</Alert>
+        }
         <CardContent>
           <Grid
             container
@@ -175,6 +229,7 @@ const ProfileDetails = ({ className,user,setsnakreq,snakreq,open, ...rest }) => 
                 type="email"
                 value={values.email}
                 variant="outlined"
+                required
               />
               </Grid>
            
@@ -190,7 +245,7 @@ const ProfileDetails = ({ className,user,setsnakreq,snakreq,open, ...rest }) => 
           <Button
             color="primary"
             variant="contained"
-            onClick={handleOnClick}
+            type="submit"
           >
             Save details
           </Button>

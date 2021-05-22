@@ -357,6 +357,25 @@ export const frontendoperations = (dataobject) => async dispatch => {
 
 // operations frontend
 
-export const logout = () => dispatch => {
-    dispatch({ type: LOGOUT });
+export const logout = () => async dispatch => {
+    let refresh_token = localStorage.getItem('refresh')
+    const body = new FormData()
+    body.append('refreshtoken',refresh_token)
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `JWT ${localStorage.getItem('access')}`,
+            'Accept': 'application/json'
+        }
+    };
+
+    try {
+        await axios.post(`${process_env_REACT_APP_API_URL}/auth/jwt/logout/`, body, config);
+        dispatch({ type: LOGOUT });
+       
+    } catch (err) {
+        dispatch({ type: LOGOUT });
+    }
+
+    
 };

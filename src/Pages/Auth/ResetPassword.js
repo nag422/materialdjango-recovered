@@ -32,14 +32,14 @@ function Copyright() {
         </Typography>
     );
 }
-
+ 
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
     },
     image: {
         
-        backgroundImage: 'url(https://app.kiranvoleti.com/static/assets/images/login3.jpeg)',
+        backgroundImage: 'url(https://app.kiranvoleti.com/static/assets/images/login3.jpg)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
