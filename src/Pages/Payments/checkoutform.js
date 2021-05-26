@@ -111,7 +111,7 @@ const CheckoutForm = ({ success, ...rest }) => {
          {process ? <Alert severity="info">Payment is in Process -- Don't go Back!<LinearProgress /></Alert>: null}
          
          
-        <h2>Price: ${getprice()} USD</h2>
+        {/* <h2>Price: ${getprice()} USD</h2> */}
         {logincondition ? <input placeholder="email" disabled={useremail !=null} value={useremail} onChange={(e) => setUseremail(e.target.value)}/>:<input placeholder="email" value={useremail} onChange={(e) => setUseremail(e.target.value)}/>}
         
         <CardElement />

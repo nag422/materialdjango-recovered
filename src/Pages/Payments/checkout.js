@@ -23,6 +23,8 @@ const Index = () => {
   const params = new URLSearchParams(search);
   const inr = params.get('inr');
   const tier = params.get('tier');
+  const currency = params.get('currency');
+  const code = params.get('code');
   if (inr == 0) {
 
     const formdata = new FormData();
@@ -96,7 +98,7 @@ const Index = () => {
 
                 <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-between" p={3}>
                   <Typography variant="p" component="p">Tools(Billed Yearly)</Typography>
-                  <Typography variant="p" component="p">${inr}.00</Typography>
+                  <Typography variant="p" component="p">{currency === "US"? 'USD'+(+inr/code).toFixed(2):'INR'+ inr+'.00'}</Typography>
                 </Box>
                 <Divider />
                 <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-between" p={3}>
@@ -105,8 +107,13 @@ const Index = () => {
                 </Box>
                 <Divider />
                 <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-between" p={3}>
+                  <Typography variant="p" component="p">Tax</Typography>
+                  <Typography variant="p" component="p">0.00(0%)</Typography>
+                </Box>
+                <Divider />
+                <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-between" p={3}>
                   <Typography variant="p" component="p">Total</Typography>
-                  <Typography variant="p" component="p">${inr}.00</Typography>
+                  <Typography variant="p" component="p">{currency === "US"? 'USD'+(+inr/code).toFixed(2):'INR'+ inr+'.00'}</Typography>
                 </Box>
                 <Divider />
 

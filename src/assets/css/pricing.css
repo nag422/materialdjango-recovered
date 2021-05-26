@@ -10,10 +10,11 @@
    .root{
     margin: 0;
     display: flex;
+    flex-direction: column;
     padding: 0;
     background:linear-gradient(to right, #4286f4, #373B44);    
     min-height: 100vh;
-    display: flex;
+    
     align-items: center;
    }
    ul {
