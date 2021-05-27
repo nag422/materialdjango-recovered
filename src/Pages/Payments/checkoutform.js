@@ -15,7 +15,7 @@ import { Box, Button, LinearProgress } from '@material-ui/core';
 import { NavLink, useHistory  } from 'react-router-dom';
 
 // You can customize your Elements to give it the look and feel of your site.
-const CheckoutForm = ({ success, ...rest }) => {
+const CheckoutForm = ({ success,discountcode, ...rest }) => {
     const [process,setProcess] = React.useState(false)
     const [paymentsuccess, setPaymentsuccess] = React.useState(false)
     const [paymentfail, setPaymentfail] = React.useState(false)
@@ -25,6 +25,8 @@ const CheckoutForm = ({ success, ...rest }) => {
     let history = useHistory();
     const stripe = useStripe();
     const elements = useElements();
+
+    
   
     const handleSubmit = async event => {
       event.preventDefault();
@@ -42,6 +44,9 @@ const CheckoutForm = ({ success, ...rest }) => {
         form_data.append('id',id)
         form_data.append('useremail',localStorage.getItem('email'))
         form_data.append('tier',gettierval())
+        form_data.append('currency',geturlparam('currency'))
+        form_data.append('discount',discountcode)
+        
         const config = {
           headers: {
               'Content-Type': 'application/json',
@@ -77,11 +82,11 @@ const CheckoutForm = ({ success, ...rest }) => {
       return tier
     }
 
-    const getprice = () => {
+    const geturlparam = (x) => {
       
       const search = window.location.search;
       const params = new URLSearchParams(search);
-      const inr = params.get('inr');    
+      const inr = params.get(x);    
       return inr 
 
     }

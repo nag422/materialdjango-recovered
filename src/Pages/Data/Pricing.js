@@ -46,7 +46,7 @@ React.useEffect(() => {
 }, [])
 
 React.useEffect(() => {
-   axios.get('https://app.kiranvoleti.com/ui/admin/getexchangerate/').then(res=> {
+   axios.get('https://app.kiranvoleti.com/ui/admin/getexchangerate/?code='+(country)).then(res=> {
        
     setPriceinusd({
         ...priceinusd,
@@ -56,7 +56,7 @@ React.useEffect(() => {
         })
        
    })
-  }, [])
+  }, [country])
 
    
     return (

@@ -94,7 +94,7 @@ export default function Transactions() {
                 {row.email}
               </TableCell>
               <TableCell align="right"><Moment format="YYYY/MM/DD HH:MM:SS">{row.createdat}</Moment></TableCell>
-              <TableCell align="right">{row.amount_total} USD</TableCell>
+              <TableCell align="right">{row.amount_total}</TableCell>
               <TableCell align="right"><Button disableElevation style={{cursor:"no-drop"}} variant="contained" color={row.payment_status == "succeeded" ? "primary":"secondary"}>{row.payment_status}</Button></TableCell>
               
             </TableRow>

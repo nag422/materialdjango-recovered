@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import CheckoutForm from './checkoutform';
 import { NavLink, Redirect, useHistory } from 'react-router-dom';
-import { Box, Card, CardContent, CardHeader, Container, Divider, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardHeader, Container, Divider, Grid, Input, List, ListItem, ListItemIcon, ListItemText, TextField, Typography } from '@material-ui/core';
 
 // you should use env variables here to not commit this
 // but it is a public key anyway, so not as sensitive
@@ -17,6 +17,8 @@ const stripePromise = loadStripe("pk_test_51H2GwkFM3Q6O7DuK3XgFpJhO5snlKligZL0EK
 
 const Index = () => {
   const [status, setStatus] = React.useState("ready");
+  const [discount, setDiscount] = React.useState('');
+  const [discountprice, setDiscountprice] = React.useState(0);
   let history = useHistory();
 
   const search = window.location.search;
@@ -41,6 +43,28 @@ const Index = () => {
       })
 
   }
+
+
+  React.useEffect(() => {
+    const config = {
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${localStorage.getItem('access')}`,
+          'Accept': 'application/json'
+      }
+  };
+    axios.get("https://app.kiranvoleti.com/ui/admin/retdiscper/?code="+(discount),config)
+    .then(res=> {
+      if (+res.data.status === 200 ){
+        setDiscountprice(res.data.discount)
+      }else{
+        setDiscountprice(0)
+      }
+      
+        
+    })
+    
+  }, [discount])
 
 
 
@@ -77,6 +101,7 @@ const Index = () => {
                 <Elements stripe={stripePromise}>
 
                   <CheckoutForm
+                    discountcode ={discount}
                     success={() => {
                       setStatus("success");
                     }}
@@ -97,7 +122,7 @@ const Index = () => {
               <Box display="flex" flexDirection="column" alignContent="left">
 
                 <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-between" p={3}>
-                  <Typography variant="p" component="p">Tools(Billed Yearly)</Typography>
+                  <Typography variant="p" component="p">Price</Typography>
                   <Typography variant="p" component="p">{currency === "US"? 'USD'+(+inr/code).toFixed(2):'INR'+ inr+'.00'}</Typography>
                 </Box>
                 <Divider />
@@ -112,8 +137,17 @@ const Index = () => {
                 </Box>
                 <Divider />
                 <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-between" p={3}>
-                  <Typography variant="p" component="p">Total</Typography>
-                  <Typography variant="p" component="p">{currency === "US"? 'USD'+(+inr/code).toFixed(2):'INR'+ inr+'.00'}</Typography>
+                  <Typography variant="p" component="p">Discount: </Typography>
+                  <input type="text" onBlur={(e)=>setDiscount(e.target.value)}/>
+                </Box>
+                <Divider />
+                <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-between" p={3}>
+                  <Typography variant="h6" component="p">Total</Typography>
+                  {discountprice > 0? 
+                  <Typography variant="h5" component="p">{currency === "US"? 'USD '+ ((+inr - ((+inr*discountprice)/100)  )/code).toFixed(2) :'INR '+ (+inr - ((+inr*discountprice)/100)  ).toFixed(2)}</Typography>
+                  :
+                  <Typography variant="h5" component="p">{currency === "US"? 'USD '+(+inr/code).toFixed(2):'INR '+ inr}</Typography>
+                  }
                 </Box>
                 <Divider />
 
