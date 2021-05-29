@@ -17,6 +17,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import FormikField from "../../Components/Controls/FormikField";
 
+
 import { signup } from "../../Actions/auth";
 
 
@@ -131,20 +132,18 @@ function Signup({signup,isAuthenticated,isSignup}) {
     // Snackbar
     
 
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
        
-        signup((values.first_name),(values.email),(values.provider),(values.password),(values.re_password))
+        await signup((values.first_name),(values.email),(values.provider),(values.password),(values.re_password))
         setRequestSent(true)
-        if (!isSignup){
+        if (isSignup){
             setSnakreq({...snakreq , message:"Something is went wrong, Make sure this is unique Email !!", color:"error"})
             return (
                 setOpen(true)               
                 
                 );
         }
-        
-        
-        
+     
         
     };
 
@@ -154,11 +153,11 @@ function Signup({signup,isAuthenticated,isSignup}) {
         <Grid container component="main" className={classes.root}>
             
             <CssBaseline />
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity={snakreq.color}>
                     {snakreq.message}
                 </Alert>
-            </Snackbar>
+            </Snackbar> */}
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
@@ -168,6 +167,9 @@ function Signup({signup,isAuthenticated,isSignup}) {
                     <Typography component="h1" variant="h5">
                         Sign up
           </Typography>
+          {isSignup &&
+            <Alert severity="success">Success! check your email to activate account!</Alert>
+          }
 
                     <Formik
                         initialValues={initialValues}

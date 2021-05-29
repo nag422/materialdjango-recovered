@@ -19,6 +19,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import FormikField from "../../Components/Controls/FormikField";
 import FormikRadio from "../../Components/Controls/FormikRadio";
+import axiosInstance from '../../axiosmodelapi';
+import axios from 'axios';
 
 const useStyles = makeStyles(() => ({
     root: {},
@@ -49,8 +51,25 @@ const initialValues = {
 
 const Notifications = ({ className, ...rest }) => {
     const classes = useStyles();
+    const config = {
+        headers: {
+            Authorization: localStorage.getItem('access')
+            ? 'JWT ' + localStorage.getItem('access'):null,
+            'Content-Type': 'application/json',
+            accept: 'application/json'
+        },
+
+    }
     const handleSubmit = (values) => {
         alert(JSON.stringify(values));
+        const form_data = new FormData()
+        form_data.append('email',values.email)
+        form_data.append('lettersub',values.lettersub)
+        axios.post("https://app.kiranvoleti.com/subscibenewsletter/",form_data,config)
+        .then(res=> {
+            console.log(res.data)
+        })
+
     };
 
     return (
