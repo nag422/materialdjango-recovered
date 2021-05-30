@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import {
     AppBar, Container, Toolbar, Grid,
     IconButton, Badge, makeStyles, Hidden,
-    Card, CardContent, Paper, Box, Link, Menu, MenuItem
+    Card, CardContent, Paper, Box, Menu, MenuItem, Link
 } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -25,11 +25,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import Slide from '@material-ui/core/Slide';
 import NavMenu from '../Components/Controls/NavMenu'
-import { Route, Switch, Redirect, useLocation, NavLink } from "react-router-dom";
+import { Route, Switch, Redirect, useLocation, NavLink} from "react-router-dom";
 import routes from "../routes.js";
 import Page from "../Components/Page/Page"
 import { connect } from 'react-redux';
 import { logout } from '../Actions/auth';
+import axiosInstance from '../axiosmodelapi';
 // import ExtraNavMenu from '../Components/Controls/ExtraNavMenu';
 
 
@@ -166,7 +167,74 @@ function Admin({logout,isAuthenticated}) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
     const [mobiledrop, setMobiledrop] = React.useState(false);
+    const [userdata,setUserdata] = React.useState({
+        first_name:'',
+        usertype:'Subscriber',
+        trends:'',
+        tier:1
+    })
     
+    React.useEffect(() => {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `JWT ${localStorage.getItem('access')}`,
+            'Accept': 'application/json'
+          }
+      };
+        
+        const body = {
+          params:{
+            id:1
+          }
+        }
+        
+        axiosInstance.get(`https://app.kiranvoleti.com/testing/checkfun/`,config)
+        .then(res => {
+          
+          // setProfilename(res.data.response.first_name)
+          
+          
+           
+         (res.data.response.map((val) => {
+            
+            // localStorage.setItem('first_name',val.first_name)
+            // localStorage.setItem('last_name',val.last_name)
+            // localStorage.setItem('phone',val.phone)
+            // localStorage.setItem('email',val.email)
+            // localStorage.setItem('usertype',val.is_staff ? (val.is_superuser ? 'Admin': 'Staff') : 'Subscriber')
+            // localStorage.setItem('userid',val.id)
+            // localStorage.setItem('tier',val.tier)
+            // localStorage.setItem('trends',val.trends?'yes':'no')
+            setUserdata({
+                ...userdata,
+                first_name:val.first_name,
+                usertype:val.is_staff ? (val.is_superuser ? 'Admin': 'Staff') : 'Subscriber',
+                trends:val.trends?'yes':'no',
+                tier:val.tier
+
+
+
+            })
+            
+          }
+         
+         
+          
+            
+            
+            ))
+    
+            
+    
+            
+          
+        })
+    
+        // setProfile(userprofileresp)
+        
+        
+      }, [])
     
     if (!isAuthenticated) {
         return <Redirect to="/login" />
@@ -180,6 +248,7 @@ function Admin({logout,isAuthenticated}) {
         setOpen(false);
     };
 
+    
 
 
 
@@ -229,7 +298,7 @@ function Admin({logout,isAuthenticated}) {
                                     </Badge>
                                 </IconButton> */}
                                 <Box mt={1}>
-                                {localStorage.getItem('first_name')}({localStorage.getItem('usertype')})
+                                {userdata.first_name}({userdata.usertype})
                                 </Box>
                                 <NavMenu logout={logout} />
                                 
@@ -286,15 +355,15 @@ function Admin({logout,isAuthenticated}) {
                 <Divider />
 
                 <List>
-                    {(localStorage.getItem('usertype')==="Admin" || localStorage.getItem('usertype')==="Staff") ?
-                    <Link href="/ui/admin/" activeClassName={classes.activeclass} className={classes.textdecor}>
+                    {(userdata.usertype==="Admin" || userdata.usertype==="Staff") ?
+                    <Link href="/ui/admin/" className={classes.textdecor}>
                     <ListItem button>
                         <ListItemIcon><HomeOutlinedIcon fontSize='small' /></ListItemIcon>
                         <ListItemText primary='Dashboard' />
                     </ListItem>
                     </Link>:null
                     }
-                    {localStorage.getItem('trends') == 'no' ?
+                    {userdata.trends == 'no' ?
                     <>
                     <NavLink to="/articles" activeClassName={classes.activeclass} className={classes.textdecor}>
                     <ListItem button>                        
@@ -315,7 +384,7 @@ function Admin({logout,isAuthenticated}) {
                         <ListItemText primary='Tools' />
                     </ListItem>
                     </NavLink></>:null}
-                    {localStorage.getItem('trends') == 'yes'?
+                    {userdata.trends == 'yes'?
                     <NavLink to="/trends" activeClassName={classes.activeclass} className={classes.textdecor}>
                     <ListItem button>
                         <ListItemIcon><TrendingUpIcon fontSize='small' /></ListItemIcon>
@@ -333,12 +402,12 @@ function Admin({logout,isAuthenticated}) {
             <main className={classes.maincontent}>
 
                 {mobiledrop ?
-                    <Slide direction="down" in={true} mountOnEnter unmountOnExit><div style={{ width: '100%', height: '60px', position: 'fixed', marginTop: '8px', marginRight: '0px', backgroundColor: '#fff', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '0px 30px',zIndex:'4' }}><span>{localStorage.getItem('first_name')}({localStorage.getItem('usertype')})</span><NavMenu logout={logout} /></div></Slide>
+                    <Slide direction="down" in={true} mountOnEnter unmountOnExit><div style={{ width: '100%', height: '60px', position: 'fixed', marginTop: '8px', marginRight: '0px', backgroundColor: '#fff', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', padding: '0px 30px',zIndex:'4' }}><span>{userdata.first_name}({userdata.usertype})</span><NavMenu logout={logout} /></div></Slide>
                     : null}
                 <div className={classes.toolbar} />
                 <Page
                     className='justemp'
-                    title='KiranVoleti | Digitalbox'
+                    title='KiranVoleti | DigitalUpgrade'
                     breadcomb={location.pathname}
                 >
                     {/* <Container> */}

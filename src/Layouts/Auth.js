@@ -1,18 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import { checkAuthenticated, load_user } from '../Actions/auth';
+import { checkAuthenticated } from '../Actions/auth';
 import { Route, Switch } from "react-router-dom";
 import Signup from "../Pages/Auth/Signup";
 import Login from '../Pages/Auth/Login'
 
 const Auth = (props) => {
    
-
+    
     React.useEffect(() => {
            
            
     props.checkAuthenticated();
-    props.load_user();
+    // props.load_user();
           
         
 
@@ -29,4 +29,4 @@ const Auth = (props) => {
     )
 }
 
-export default connect(null, { checkAuthenticated, load_user })(Auth);
+export default connect(null, { checkAuthenticated })(Auth);

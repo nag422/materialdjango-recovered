@@ -26,7 +26,7 @@ import { login } from "../../Actions/auth";
 import GoogleButton from 'react-google-button'
 
 import axios from 'axios';
-import { IconButton } from '@material-ui/core';
+import { CircularProgress, IconButton } from '@material-ui/core';
 
 
 function Copyright() {
@@ -171,6 +171,7 @@ function Login({login,isAuthenticated,isAlert}) {
 
     const [open, setOpen] = React.useState(false);
     const [msg, setMsg] = React.useState('');
+    const [isloading,setIsloading] = React.useState(false)
 
   
     
@@ -207,18 +208,15 @@ function Login({login,isAuthenticated,isAlert}) {
     
 
     const handleSubmit = async (values) => {
-        setMsg('Signing in Please Wait..')
-        setOpen(true);
-        await login((values.email),(values.password))
-        if(isAlert){
-            setMsg('Something is went wrong, try again')
-            setOpen(true)
-            return 
-        }
+        setIsloading(true)
+        const data = await login((values.email),(values.password))
         
-        if (isAuthenticated) {
-            return <Redirect to="/profile" />
-        }
+
+     
+        
+        // if (isAuthenticated) {
+        //     return <Redirect to="/profile" />
+        // }
         
     };
 
@@ -317,7 +315,7 @@ function Login({login,isAuthenticated,isAlert}) {
                                         fullWidth                                       
                                         className={classes.submit}
                                     >
-                                        Login
+                                       {isloading && <CircularProgress color="secondary" size={20} />} Login
                                     </Button>
                                 </Grid>
 
@@ -366,8 +364,7 @@ function Login({login,isAuthenticated,isAlert}) {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    isAlert: state.auth.loginaction
+    isAuthenticated: state.auth.isAuthenticated    
 });
 
 export default connect(mapStateToProps, { login  })(Login);

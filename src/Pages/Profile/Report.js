@@ -52,7 +52,7 @@ const initialValues = {
 };
 
 
-const Report = ({ className,frontendoperations,isAuthenticated,isAction,snakreq,setsnakreq,open, ...rest }) => {
+const Report = ({ className,frontendoperations,isAuthenticated,isAction, ...rest }) => {
     const classes = useStyles();
     
     
@@ -60,17 +60,17 @@ const Report = ({ className,frontendoperations,isAuthenticated,isAction,snakreq,
       
         await frontendoperations({...values,action:'report',email:initialValues.email})
         if(!isAction){
-          setsnakreq({...snakreq,
-            message:"Successfully Reported !!",
-            color:"success"});
+            alert({message:"Successfully Reported !!",
+            color:"success"})
+         
         }else{
-          setsnakreq({...snakreq,
-            message:"Something is Went Wrong !!",
-            color:"error"});
-
+            alert({message:"Something is Went Wrong !!",
+            color:"error"})
+          
+         
         }
         
-        open(true)
+        
     };
 
     return (

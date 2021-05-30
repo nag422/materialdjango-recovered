@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const Help = ({ className,frontendoperations,isAuthenticated,isAction,snakreq,setsnakreq,open, ...rest }) => {
+const Help = ({ className,frontendoperations,isAuthenticated,isAction, ...rest }) => {
   const classes = useStyles();
 
   const firstvalues = {
@@ -43,15 +43,15 @@ const Help = ({ className,frontendoperations,isAuthenticated,isAction,snakreq,se
   const handleSubmit = async () => {   
     await frontendoperations({action:'help',email:firstvalues.email,username:firstvalues.username,message:firstvalues.message})
     if(isAction){
-      setsnakreq({...snakreq,
-        message:"Successfully Message Sent !!",
-        color:"success"});
+     
+      
+        
     }else{
-      setsnakreq({...snakreq,
+      alert({
         message:"Something is Went Wrong !!",
-        color:"error"});
+        color:"error"})    
     }  
-    open(true)
+    
   };
 
   return (

@@ -137,8 +137,8 @@ const ProfileIndex = () => {
             <Profile
             user= {user}
             snakreq = {snakreq}
-            setsnakreq = {setSnakreq}  
-            open={setOpen}
+            
+            
             className='profileclass'
             />
           </Grid>
@@ -149,8 +149,8 @@ const ProfileIndex = () => {
             xs={12}
           >
             <ProfileDetails user= {user} snakreq = {snakreq}
-            setsnakreq = {setSnakreq}  
-            open={setOpen}
+            
+            
             className='profiledetailsclass' />
           </Grid>
           <Grid
@@ -161,8 +161,8 @@ const ProfileIndex = () => {
           >
             <Report
               snakreq = {snakreq}
-              setsnakreq = {setSnakreq}  
-              open={setOpen}          
+              
+            
             />
           </Grid>
           <Grid
@@ -173,8 +173,8 @@ const ProfileIndex = () => {
           >
             <Help
             snakreq = {snakreq}
-            setsnakreq = {setSnakreq}  
-            open={setOpen}   
+            
+           
             />
           </Grid>
           </Grid>

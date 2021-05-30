@@ -27,7 +27,6 @@ const initialState = {
     isAuthenticated: null,
     user: null,
     isAction: 'success',
-    loginaction:false,
     profile: {},
 };
 
@@ -84,8 +83,9 @@ export default function(state = initialState, action) {
         case LOGIN_FAIL:
         case SIGNUP_FAIL:
         case LOGOUT:            
-            localStorage.removeItem('access');
-            localStorage.removeItem('refresh');
+            // localStorage.removeItem('access');
+            // localStorage.removeItem('refresh');
+            localStorage.clear()
             
             return {
                 ...state,
@@ -93,7 +93,7 @@ export default function(state = initialState, action) {
                 refresh: null,
                 isAuthenticated: false,
                 user: null,
-                loginaction:true
+                
             }
         case AUTHENTICATED_SUCCESS:
             return {

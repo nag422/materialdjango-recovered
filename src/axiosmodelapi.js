@@ -23,14 +23,15 @@ axiosInstance.interceptors.response.use(
 
         if(typeof error.response === 'undefined') {
             console.log('Network error');
-            window.location.replace('/login')
+            // window.location.replace('/login')
+            alert('Network error')
             return Promise.reject(error);
         }
-        // if(error.response.status === 401){
-        //         console.log('login 401')
-        //         window.location.replace('/login')
-        //         return Promise.reject(error);
-        //     }
+        if(error.response.status === 401){
+                alert('login 401')
+                // window.location.replace('/login')
+                return Promise.reject(error);
+            }
             if (
                 error.response.data.code === 'token_not_valid' ||
                 error.response.status === 401

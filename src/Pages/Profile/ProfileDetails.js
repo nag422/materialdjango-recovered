@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const ProfileDetails = ({ className,user,setsnakreq,snakreq,open, ...rest }) => {
+const ProfileDetails = ({ className,user,open, ...rest }) => {
   const classes = useStyles();
   const [alertobject,setAlertobject] =  React.useState({
     sever:'',
