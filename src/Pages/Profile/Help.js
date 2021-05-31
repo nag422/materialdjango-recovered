@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
-  Box,
+ 
   Button,
   Card,
   CardContent,
@@ -10,11 +10,14 @@ import {
   Divider,
   Grid,
   TextField,
-  makeStyles
+  makeStyles,
+  CircularProgress
 } from '@material-ui/core';
 
 import {frontendoperations} from "../../Actions/auth";
 import {connect} from 'react-redux';
+import Alert from '@material-ui/lab/Alert';
+
 
 
 const useStyles = makeStyles(() => ({
@@ -25,11 +28,17 @@ const Help = ({ className,frontendoperations,isAuthenticated,isAction, ...rest }
   const classes = useStyles();
 
   const firstvalues = {
-    email:"nagendrakumar422@gmail.com",
-    username: "nagendrakumar422@gmail.com",
+    email:"",
+    username: "",
     message:""
   };
   const [values, setValues] = React.useState(firstvalues)
+  const [loading, setLoading] = React.useState(false);
+  const [alertobject,setAlertobject] =  React.useState({
+    sever:'',
+    isopen:false,
+    message:''
+  })
   
 
   const handleChange = (event) => {
@@ -40,16 +49,28 @@ const Help = ({ className,frontendoperations,isAuthenticated,isAction, ...rest }
   };
 
   
-  const handleSubmit = async () => {   
-    await frontendoperations({action:'help',email:firstvalues.email,username:firstvalues.username,message:firstvalues.message})
-    if(isAction){
-     
+  const handleSubmit = async () => {  
+    setLoading(true) 
+    const ismessagesent = await frontendoperations({action:'help',email:values.email,username:values.username,message:values.message})
+    setLoading(false) 
+    if(ismessagesent){
+      return setAlertobject({
+        ...alertobject,
+        sever:'success',
+        isopen:true,
+        message:'Submitted, We will get Back Soon'
+
+      })    
       
         
     }else{
-      alert({
-        message:"Something is Went Wrong !!",
-        color:"error"})    
+      return setAlertobject({
+        ...alertobject,
+        sever:'error',
+        isopen:true,
+        message:'Something is went wrong!'
+
+      })   
     }  
     
   };
@@ -67,6 +88,9 @@ const Help = ({ className,frontendoperations,isAuthenticated,isAction, ...rest }
           title="Support"
         />
         <Divider />
+        {alertobject.isopen &&
+                <Alert severity={alertobject.sever}>{alertobject.message}</Alert>
+        }
         <CardContent>
           <Grid
             container
@@ -91,14 +115,16 @@ const Help = ({ className,frontendoperations,isAuthenticated,isAction, ...rest }
             </Grid>   
                    
             <Grid item md={12} xs={12}>
+            {loading?<CircularProgress size={25} />:  
             <Button
             color="primary"
             variant="contained"
             onClick={handleSubmit}
             disabled = {values.message.length >= 2 ? false:true}
-          >            
+          >   
+                 
            Send Now 
-          </Button>
+          </Button>}
           </Grid>
            
           </Grid>

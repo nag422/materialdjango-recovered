@@ -27,18 +27,18 @@ axiosInstance.interceptors.response.use(
             alert('Network error')
             return Promise.reject(error);
         }
-        if(error.response.status === 401){
-                alert('login 401')
-                // window.location.replace('/login')
-                return Promise.reject(error);
-            }
+        // if(error.response.status === 401){
+        //         alert('login 401')
+        //         // window.location.replace('/login')
+        //         return Promise.reject(error);
+        //     }
             if (
                 error.response.data.code === 'token_not_valid' ||
                 error.response.status === 401
                 //  && error.response.statusText === 'Unauthorized'
             ) {
 
-                const refreshToken = localStorage.getItem('refresh_token');
+                const refreshToken = localStorage.getItem('refresh');
                 if (refreshToken !== 'undefined') {
                     // const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
     

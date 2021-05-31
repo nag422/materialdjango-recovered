@@ -374,7 +374,7 @@ const Tools = () => {
                     </Avatar>
                   </Box>
                   <Box pl={1}>
-                    <Link href={`/view_website/${item.id}/${item.category.toLowerCase()}`} underline="none" color="inherit">
+                    <Link href={`/view_website/${item.id}/${item.category.toLowerCase()}/`} underline="none" color="inherit">
                       <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
                         {urlparser(item.URL)}
@@ -384,7 +384,7 @@ const Tools = () => {
 
                 </Box>
                 <Box className={classes.content}>
-                  <Link href={`/view_website/${item.id}/${item.category.toLowerCase()}`} underline="none" color="inherit">
+                  <Link href={`/view_website/${item.id}/${item.category.toLowerCase()}/`} underline="none" color="inherit">
                     <Typography variant="h6" component="p">
                       {item.title}
                     </Typography>

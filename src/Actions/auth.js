@@ -301,7 +301,7 @@ export const frontendoperations = (dataobject) => async dispatch => {
         }
     };
 
-    
+    let returnvalue = true
     const type=dataobject.action;
     const form_data = new FormData();
     switch (type) {
@@ -311,20 +311,23 @@ export const frontendoperations = (dataobject) => async dispatch => {
             form_data.append('url',dataobject.url)
             form_data.append('inputRadios',dataobject.inputRadios)
             const res = await axios.post(`${process_env_REACT_APP_API_URL}/reportissue/`, form_data, config);
-            if(res.data.msg === "REPORT_ISSUE_SUCCESS"){
+            if(res.data.msg === REPORT_ISSUE_SUCCESS){
         
                 dispatch({
                     type: REPORT_ISSUE_SUCCESS
                 });
+                returnvalue = true
         
             }
             else {
                 dispatch({
                     type: REPORT_ISSUE_FAIL
                 });
+                returnvalue = false
             }
             break;
         case 'help':
+
             
             form_data.append('email',dataobject.email)
             form_data.append('username',dataobject.username)
@@ -335,14 +338,16 @@ export const frontendoperations = (dataobject) => async dispatch => {
             dispatch({
                 type: CONTACT_SUCCESS
             });
-        
-              break;
+            returnvalue = true
+            break;
         
         default:
             const s='v'
 
 
     }
+
+    return returnvalue
 
     
     

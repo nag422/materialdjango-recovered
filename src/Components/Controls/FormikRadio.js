@@ -90,7 +90,7 @@ const useStyles = makeStyles({
     );
 };
 
-  const FormikRadio = ({name,label,val,required}) => {
+  const FormikRadio = ({name,label,val,required,...rest}) => {
       return (
             <div className="FormikSelect">
                 <Field
@@ -99,6 +99,7 @@ const useStyles = makeStyles({
                 label={label}
                 errorString={<ErrorMessage name={name} />}
                 required={required}
+                {...rest}
                 >
                     <FormControlLabel value={val} control={<StyledRadio />} label={val} />
                     {/* <FormControlLabel value="unsubscribe" control={<StyledRadio />} label="Unsubscribe" />       */}

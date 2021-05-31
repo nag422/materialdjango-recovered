@@ -21,6 +21,7 @@ import FormikField from "../../Components/Controls/FormikField";
 import FormikRadio from "../../Components/Controls/FormikRadio";
 import axiosInstance from '../../axiosmodelapi';
 import axios from 'axios';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(() => ({
     root: {},
@@ -51,6 +52,11 @@ const initialValues = {
 
 const Notifications = ({ className, ...rest }) => {
     const classes = useStyles();
+    const [alertobject,setAlertobject] =  React.useState({
+        sever:'',
+        isopen:false,
+        message:''
+      })
     const config = {
         headers: {
             Authorization: localStorage.getItem('access')
@@ -61,13 +67,29 @@ const Notifications = ({ className, ...rest }) => {
 
     }
     const handleSubmit = (values) => {
-        alert(JSON.stringify(values));
+        
         const form_data = new FormData()
         form_data.append('email',values.email)
         form_data.append('lettersub',values.lettersub)
         axios.post("https://app.kiranvoleti.com/subscibenewsletter/",form_data,config)
         .then(res=> {
-            console.log(res.data)
+            return setAlertobject({
+                ...alertobject,
+                sever:'success',
+                isopen:true,
+                message:res.data.lettersub ==="subscribe" ? "Thank you for Sucbscription!":"Unsubscribed! Sorry we miss you, you're always welcome!"
+        
+              })
+        }).catch(err=> {
+
+            return setAlertobject({
+                ...alertobject,
+                sever:'error',
+                isopen:true,
+                message:"Something is went wrong!"
+        
+              })
+
         })
 
     };
@@ -83,6 +105,9 @@ const Notifications = ({ className, ...rest }) => {
                     title="Daily News Letter"
                 />
                 <Divider />
+                {alertobject.isopen &&
+                <Alert severity={alertobject.sever}>{alertobject.message}</Alert>
+        }
                 <CardContent>
                     <Paper elevation={0}>
 
@@ -112,20 +137,23 @@ const Notifications = ({ className, ...rest }) => {
                                             
                                             <br />
 
-                                                
+                                                {localStorage.getItem('newsletter') === "no" ?
+                                                    
                                                     <FormikRadio
                                                     name="lettersub"
                                                     label="Lettersub"
                                                     val="subscribe"
                                                     required
                                                     />
+                                                    :
                                                      <FormikRadio
                                                     name="lettersub"
                                                     label="Lettersub"
                                                     val="unsubscribe"
                                                     required
                                                     />
-                                                
+                                                    
+                                    }
 
                                                 
                                                     <Button

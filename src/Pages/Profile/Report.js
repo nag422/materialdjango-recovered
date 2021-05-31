@@ -21,6 +21,7 @@ import FormikField from "../../Components/Controls/FormikField";
 import FormikRadio from "../../Components/Controls/FormikRadio";
 import {frontendoperations} from "../../Actions/auth";
 import {connect} from 'react-redux';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -54,18 +55,36 @@ const initialValues = {
 
 const Report = ({ className,frontendoperations,isAuthenticated,isAction, ...rest }) => {
     const classes = useStyles();
+    const [alertobject,setAlertobject] =  React.useState({
+        sever:'',
+        isopen:false,
+        message:''
+      })
     
     
     const handleSubmit = async (values) => {      
       
-        await frontendoperations({...values,action:'report',email:initialValues.email})
-        if(!isAction){
-            alert({message:"Successfully Reported !!",
-            color:"success"})
+        const isreported = await frontendoperations({...values,action:'report',email:initialValues.email})
+        if(isreported){
+            
+            return setAlertobject({
+                ...alertobject,
+                sever:"success",
+                isopen:true,
+                message:"Successfully Reported !!"
+        
+              })
          
         }else{
-            alert({message:"Something is Went Wrong !!",
-            color:"error"})
+            
+
+            return setAlertobject({
+                ...alertobject,
+                sever:"error",
+                isopen:true,
+                message:"Something is Went Wrong !!"
+        
+              })
           
          
         }
@@ -84,6 +103,9 @@ const Report = ({ className,frontendoperations,isAuthenticated,isAction, ...rest
                     title="We Remove Your Data"
                 />
                 <Divider />
+                {alertobject.isopen &&
+                <Alert severity={alertobject.sever}>{alertobject.message}</Alert>
+        }
                 <CardContent>
                     <Paper elevation={0}>
 

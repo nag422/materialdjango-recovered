@@ -83,6 +83,7 @@ const ProfileIndex = () => {
         localStorage.setItem('userid',val.id)
         localStorage.setItem('tier',val.tier)
         localStorage.setItem('trends',val.trends?'yes':'no')
+        localStorage.setItem('newsletter',val.newsletter?'yes':'no')
         
       }
      
