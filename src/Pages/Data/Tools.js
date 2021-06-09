@@ -419,10 +419,10 @@ const Tools = () => {
       <Grid item xs={12} style={{ marginLeft: '45%' }}>
         {loading && <CircularProgress disableShrink />}
         {error && 'Error'}
-        {errormsg}
-        {/* {!hasMore && <Button size="small" color="primary">
+        {/* {errormsg} */}
+        {!hasMore && <Button size="small" color="primary">
           No more Records
-            </Button>} */}
+            </Button>}
       </Grid>
       </Grid>
     </>

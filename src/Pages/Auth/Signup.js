@@ -16,9 +16,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import FormikField from "../../Components/Controls/FormikField";
-
+import TwitterIcon from '@material-ui/icons/Twitter';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 
 import { signup } from "../../Actions/auth";
+import { CircularProgress } from '@material-ui/core';
 
 
 function Copyright() {
@@ -77,15 +82,15 @@ const signupschema = Yup.object().shape({
         .required("Email is Should not be Empty"),
     password: Yup.string()
         .min(2, 'Too Short!')        
-        .required("A Subscribe option is required")
+        .required("This field is required")
         .matches(
             /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
             "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
           ),
     re_password:Yup.string()
     .min(2, 'Too Short!')        
-    .required("A Subscribe option is required")
-    .test('passwords-match', 'Passwords must match ya fool', function(value) {
+    .required("This field is required")
+    .test('passwords-match', 'Passwords must match', function(value) {
         return this.parent.password === value;
       })
 })
@@ -101,25 +106,33 @@ const initialValues = {
     provider:"rest"
 };
 
-function Signup({signup,isAuthenticated,isSignup}) {
+function Signup({signup,isAuthenticated}) {
     const classes = useStyles();
     
-    const [requestSent, setRequestSent] = React.useState(false)
+    
     const [open, setOpen] = React.useState(false);
+    const [isloading,setIsloading] = React.useState(false)
     const [snakreq,setSnakreq] = React.useState({
+        open:false,
         message:"",
         color:"inherit"
 
     })
 
-   if (isAuthenticated) {
-       return <Redirect to="/login" />
-   }
+    React.useEffect(() => {
+        if (isAuthenticated) {
+
+            return <Redirect to="/articles" />
+        }
+    }, [isAuthenticated])
+   
 
 
     //    Snackbar
 
-    
+    const socialnavigation = (socialurl) =>{
+        return window.location.assign(socialurl)
+    }
     
       const handleClose = (event,reason) => {
         if (reason === 'clickaway') {
@@ -130,25 +143,41 @@ function Signup({signup,isAuthenticated,isSignup}) {
       };
 
     // Snackbar
-    
+     
 
     const handleSubmit = async (values) => {
-       
-        await signup((values.first_name),(values.email),(values.provider),(values.password),(values.re_password))
-        setRequestSent(true)
-        if (isSignup){
-            setSnakreq({...snakreq , message:"Something is went wrong, Make sure this is unique Email !!", color:"error"})
-            return (
-                setOpen(true)               
-                
-                );
+        setIsloading(true)
+        let issigned = await signup((values.first_name),(values.email),(values.provider),(values.password),(values.re_password))
+        setIsloading(false)
+        
+        if(issigned){
+
+            return setSnakreq ({
+                ...snakreq,
+                open:true,
+                message:"Success! check your email to activate account!",
+                color:"success"
+        
+            })
+
+        }else{
+            
+            return setSnakreq ({
+                ...snakreq,
+                open:true,
+                message:'Email is already exists!',
+                color:"error"
+        
+            })
+
         }
-     
+        
+        
         
     };
 
     // if (requestSent) return <Redirect to="/login" />
-
+ 
     return (
         <Grid container component="main" className={classes.root}>
             
@@ -167,8 +196,8 @@ function Signup({signup,isAuthenticated,isSignup}) {
                     <Typography component="h1" variant="h5">
                         Sign up
           </Typography>
-          {isSignup &&
-            <Alert severity="success">Success! check your email to activate account!</Alert>
+          {snakreq.open &&
+            <Alert severity={snakreq.color}>{snakreq.message}</Alert>
           }
 
                     <Formik
@@ -238,7 +267,7 @@ function Signup({signup,isAuthenticated,isSignup}) {
                                         fullWidth                                       
                                         className={classes.submit}
                                     >
-                                        Sign up
+                                         {isloading && <CircularProgress color="secondary" size={20} />}Sign up
                                     </Button>
                                 </Grid>
 
@@ -270,6 +299,13 @@ function Signup({signup,isAuthenticated,isSignup}) {
             <Box mt={5}>
               <Copyright />
             </Box>
+            <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-around" mt={5}>
+                                            <TwitterIcon style={{color:"#1DA1F2",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.twitter.com/kiranvoleti')} />
+                                            <InstagramIcon style={{color:"#C13584",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.instagram.com/kiranvoletidigital')} />
+                                            <FacebookIcon style={{color:"#4267B2",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.facebook.com/kiranvoleti')} />
+                                            <LinkedInIcon style={{color:"#115293",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.linkedin.com/in/kiranvoleti/')} />
+                                            <YouTubeIcon style={{color:"#FF0000",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.youtube.com/channel/UC7mYifiG7sNeRM9aIKXrYuA')} />
+                                        </Box>
 
                                 </Form>
                                 </Grid>
@@ -287,8 +323,8 @@ function Signup({signup,isAuthenticated,isSignup}) {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    isSignup: state.auth.isSignup,
+    isAuthenticated: state.auth.isAuthenticated
+   
 });
 
 export default connect(mapStateToProps, { signup  })(Signup);

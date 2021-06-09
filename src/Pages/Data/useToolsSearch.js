@@ -15,6 +15,9 @@ export default function useToolSearch(query, pageNumber, orderby) {
     useEffect(() => {
         setTools([])
         pageNumber=1
+        return ()=>{
+            setTools([])
+        }
     }, [query,orderby])
 
     React.useEffect(() => {

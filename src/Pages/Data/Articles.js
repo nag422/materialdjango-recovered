@@ -15,12 +15,12 @@ import Typography from '@material-ui/core/Typography';
 
 
 const useStyles = makeStyles(theme => ({
-  root:{},
+  root: {},
   cardsource: {
     // maxWidth:'370px',
     // maxWidth: '340px',
     // boxSizing:'border-box',
-    borderRadius:'0px',
+    borderRadius: '0px',
     marginTop: '1%',
     '& .MuiCardContent-root': {
       padding: '22px',
@@ -46,9 +46,9 @@ const useStyles = makeStyles(theme => ({
 
   },
   small: {
-    width:'10px',
-    height:'10px',
-    top:'5.5px'
+    width: '10px',
+    height: '10px',
+    top: '5.5px'
   },
   content: {
     padding: '2px auto auto atuo'
@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
       opacity: 0.5
     }
   },
-  tagcontent:{
+  tagcontent: {
     position: 'relative',
     marginTop: 'auto',
     paddingTop: '5%',
@@ -99,48 +99,48 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
-  tagtext:{
+  tagtext: {
     marginTop: '5px',
     fontSize: '8px',
-    position: 'relative',      
+    position: 'relative',
     color: '#5c5a5a',
     display: 'flex',
     flexDirection: 'row',
     cursor: 'pointer'
   },
-  tagcategorytesting:{
-    alignItems:"center",
+  tagcategorytesting: {
+    alignItems: "center",
     backgroundColor: '#f9f9f9',
-      padding: '5px',
-      color: '#030303',
-      height: '24px',
-      minWidth: '12px',
-      fontSize: '11px',
-      // padding: 'auto 0px',
-      borderRadius: '16px',
-      boxSizing: 'border-box',
-      outline: 'none',
-      overflow: 'hidden',
-      
-      /* user-select: none; */
-      textAlign: 'center',
-      verticalAlign: 'baseline',
-      /* margin-bottom: -11.5rem; */
-      marginTop: '-0.5rem',
-      marginRight: '3px',
-      cursor: 'pointer'
+    padding: '5px',
+    color: '#030303',
+    height: '24px',
+    minWidth: '12px',
+    fontSize: '11px',
+    // padding: 'auto 0px',
+    borderRadius: '16px',
+    boxSizing: 'border-box',
+    outline: 'none',
+    overflow: 'hidden',
+
+    /* user-select: none; */
+    textAlign: 'center',
+    verticalAlign: 'baseline',
+    /* margin-bottom: -11.5rem; */
+    marginTop: '-0.5rem',
+    marginRight: '3px',
+    cursor: 'pointer'
   },
-  searchformcustom:{
-    display:"flex",
-    alignItems:"center",
-    justifyContent:"space-between",
-    
-    '& .MuiSelect-select':{
-      minWidth:'150px'
+  searchformcustom: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+
+    '& .MuiSelect-select': {
+      minWidth: '150px'
     },
     [theme.breakpoints.down('sm')]: {
-      justifyContent:"flex-start",
-      margin:'5px 3px'
+      justifyContent: "flex-start",
+      margin: '5px 3px'
     }
   }
 }));
@@ -159,30 +159,30 @@ const toUpperCaseFilter = (d) => {
 };
 
 const Articles = () => {
- 
-  
+
+
   const [query, setQuery] = useState('')
   const [pageNumber, setPageNumber] = useState(1)
   const [orderby, setOrderby] = useState('newest')
   const [errormsg, setErrormsg] = useState('')
   React.useEffect(() => {
     if (!localStorage.getItem('remain')) {
-      setErrormsg('Your Plan is Expired! Upgrade Now')      
-      
+      setErrormsg('Your Plan is Expired! Upgrade Now')
+
     }
-    if(localStorage.getItem('trends') == "yes"){
-        window.location.replace('/profile')
+    if (localStorage.getItem('trends') == "yes") {
+      window.location.replace('/profile')
     }
-    
-  
+
+
   }, [])
-  
+
 
   const {
     articles,
     hasMore,
     loading,
-    error    
+    error
   } = useArticleSearch(query, pageNumber, orderby)
 
   const classes = useStyles();
@@ -229,7 +229,7 @@ const Articles = () => {
 
   return (
     <>
-      <Grid container style={{ backgroundColor: "#fff", padding: '0.6% 0 0 2%', minHeight:'100px' }}
+      <Grid container style={{ backgroundColor: "#fff", padding: '0.6% 0 0 2%', minHeight: '100px' }}
         alignContent="center"
         alignItems="center"
         justify="flex-start"
@@ -239,119 +239,119 @@ const Articles = () => {
 
 
         <Grid item xs={12} md={3} sm={5}>
-          
+
           <Box className={classes.searchformcustom}>
-          <label>Query : </label>
-          <TextField id="outlined-basic"
-            label="keyword"
-            variant="outlined"
-            size="small"            
-            onChange={(e) => setQuery(e.target.value)}
-          />
+            <label>Query : </label>
+            <TextField id="outlined-basic"
+              label="keyword"
+              variant="outlined"
+              size="small"
+              onChange={(e) => setQuery(e.target.value)}
+            />
           </Box>
         </Grid>
 
         <Grid item xs={12} md={5} sm={12} className={classes.formalign}>
-        <Box className={classes.searchformcustom}>
-          <InputLabel >Order : </InputLabel>
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="Select"
-            size="small"
-            onChange={(e) => setOrderby(e.target.value)}            
-            variant="outlined"
-          >
+          <Box className={classes.searchformcustom}>
+            <InputLabel >Order : </InputLabel>
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Select"
+              size="small"
+              onChange={(e) => setOrderby(e.target.value)}
+              variant="outlined"
+            >
 
-            <MenuItem key='newest' value='newest'>
-              New
+              <MenuItem key='newest' value='newest'>
+                New
             </MenuItem>
-            <MenuItem key='oldest' value='oldest'>
-              Oldest
+              <MenuItem key='oldest' value='oldest'>
+                Oldest
             </MenuItem>
 
-          </TextField>
-          
-          <Button onClick={handleSearch} className={classes.buttonalign} variant="contained" color="primary">Submit</Button>
+            </TextField>
+
+            <Button onClick={handleSearch} className={classes.buttonalign} variant="contained" color="primary">Submit</Button>
           </Box>
         </Grid>
 
-        </Grid>
+      </Grid>
 
 
 
-     
+
 
       <Grid container spacing={2}>
-      {articles.map((item, index) => {
-        if (articles.length === index + 1) {
-          // return <div ref={lastBookElementRef} key={index}>{article.title}</div>
-          return <Grid item xs={12} md={3} sm={3} key={index} ref={lastBookElementRef}>
+        {articles.map((item, index) => {
+          if (articles.length === index + 1) {
+            // return <div ref={lastBookElementRef} key={index}>{article.title}</div>
+            return <Grid item xs={12} md={3} sm={3} key={index} ref={lastBookElementRef}>
 
-            <Card elevation={0} className={classes.cardsource}>
-              <CardActionArea>
-                <Link href={item.URL} underline="none">
-                  <CardMedia
-                    component="img"
-                    alt={item.title}
-                    height="140"
-                    image={item.image}
-                    title={item.title}
-                    onError={addDefaultSrc}
-                  />
+              <Card elevation={0} className={classes.cardsource}>
+                <CardActionArea>
+                  <Link href={item.URL} underline="none">
+                    <CardMedia
+                      component="img"
+                      alt={item.title}
+                      height="140"
+                      image={item.image}
+                      title={item.title}
+                      onError={addDefaultSrc}
+                    />
                     <Box className={classes.productImageOverlay}></Box>
-                </Link>
-                
-              </CardActionArea>
-              <CardContent>
+                  </Link>
+
+                </CardActionArea>
+                <CardContent>
 
 
-                <Box display="flex">
-                  <Box>
-                    <Avatar className={classes.small}>
-                      <PublicIcon style={{fontSize:'11px'}} />
-                    </Avatar>
-                    <Link href={item.URL} underline="none" color="inherit">
-                      <Typography gutterBottom variant="body2" color="textSecondary" component="p">
+                  <Box display="flex">
+                    <Box>
+                      <Avatar className={classes.small}>
+                        <PublicIcon style={{ fontSize: '11px' }} />
+                      </Avatar>
+                      <Link href={item.URL} underline="none" color="inherit">
+                        <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
-                        {urlparser(item.URL)}
+                          {urlparser(item.URL)}
+                        </Typography>
+                      </Link>
+                    </Box>
+
+
+                  </Box>
+
+
+                  <Box className={classes.content}>
+                    <Link href={item.URL} underline="none" color="inherit" target="_blank">
+                      <Typography variant="h6" component="p">
+                        {item.title}
                       </Typography>
                     </Link>
                   </Box>
-                  
 
-                </Box>
-
-                
-                <Box className={classes.content}>
-                  <Link href={item.URL} underline="none" color="inherit" target="_blank">
-                    <Typography variant="h6" component="p">
-                      {item.title}
-                    </Typography>
-                  </Link>
-                </Box>
-
-                <Box className={classes.tagcontent}>
-                  <Box className={classes.tagtext}>
-                  <LocalOfferIcon  style={{ color: "lightgray",fontSize:'1rem' }} />
-                  
- 
-
-                  {item.keytags.map((val, index) => (
-                    // <Chip size="small" key={index} label={val} style={{ margin: "2px", wrap: 'wrap', overflow: 'hidden' }} id={val} onClick={(e) => { setQuery(val); setPageNumber(1) }} />
-                    <div key={index}  className={classes.tagcategorytesting} id={val} onClick={(e) => { setQuery(val); setPageNumber(1) }}>{val}</div>
-                  ))}
-                </Box>
-                </Box>
+                  <Box className={classes.tagcontent}>
+                    <Box className={classes.tagtext}>
+                      <LocalOfferIcon style={{ color: "lightgray", fontSize: '1rem' }} />
 
 
-                <Box display="flex" justifyContent="flex-start" alignItems="center">
-                  <AccessTimeIcon fontSize='small' />
+
+                      {item.keytags.map((val, index) => (
+                        // <Chip size="small" key={index} label={val} style={{ margin: "2px", wrap: 'wrap', overflow: 'hidden' }} id={val} onClick={(e) => { setQuery(val); setPageNumber(1) }} />
+                        <div key={index} className={classes.tagcategorytesting} id={val} onClick={(e) => { setQuery(val); setPageNumber(1) }}>{val}</div>
+                      ))}
+                    </Box>
+                  </Box>
+
+
+                  <Box display="flex" justifyContent="flex-start" alignItems="center">
+                    <AccessTimeIcon fontSize='small' />
                     &nbsp;<Moment filter={toUpperCaseFilter} fromNow>{item.time_elapsed}</Moment>&nbsp;
                   </Box>
-              </CardContent>
-              {/* </CardActionArea> */}
-              {/* <CardActions>
+                </CardContent>
+                {/* </CardActionArea> */}
+                {/* <CardActions>
                 <Button size="small" color="primary">
                   Share
       </Button>
@@ -359,74 +359,74 @@ const Articles = () => {
                   Learn More
       </Button>
               </CardActions> */}
-            </Card>
+              </Card>
 
-          </Grid>
-        } else {
-          // return <div key={index}>{article.title}</div>
-          return <Grid item xs={12} md={3} sm={3} key={index}>
+            </Grid>
+          } else {
+            // return <div key={index}>{article.title}</div>
+            return <Grid item xs={12} md={3} sm={3} key={index}>
 
-            <Card elevation={0} className={classes.cardsource}>
-              <CardActionArea>
-                <Link href={item.URL} underline="none">
-                  <CardMedia
-                    component="img"
-                    alt={item.title}
-                    height="140"
-                    image={item.image}
-                    title={item.title}
-                    onError={addDefaultSrc}
-                  />
-                  <Box className={classes.productImageOverlay}></Box>
-                </Link>
-                
-              </CardActionArea>
-              <CardContent>
+              <Card elevation={0} className={classes.cardsource}>
+                <CardActionArea>
+                  <Link href={item.URL} underline="none">
+                    <CardMedia
+                      component="img"
+                      alt={item.title}
+                      height="140"
+                      image={item.image}
+                      title={item.title}
+                      onError={addDefaultSrc}
+                    />
+                    <Box className={classes.productImageOverlay}></Box>
+                  </Link>
+
+                </CardActionArea>
+                <CardContent>
 
 
-                <Box display="flex">
-                  <Box  order={1}>
-                    <Avatar className={classes.small}>
-                    <PublicIcon style={{fontSize:'11px'}} />
-                    </Avatar>
+                  <Box display="flex">
+                    <Box order={1}>
+                      <Avatar className={classes.small}>
+                        <PublicIcon style={{ fontSize: '11px' }} />
+                      </Avatar>
+                    </Box>
+                    <Box pl={1} order={2}>
+                      <Link href={item.URL} underline="none" color="inherit">
+                        <Typography gutterBottom variant="body2" color="textSecondary" component="p">
+
+                          {urlparser(item.URL)}
+                        </Typography>
+                      </Link>
+                    </Box>
+
                   </Box>
-                  <Box pl={1} order={2}>
-                    <Link href={item.URL} underline="none" color="inherit">
-                      <Typography gutterBottom variant="body2" color="textSecondary" component="p">
-
-                        {urlparser(item.URL)}
+                  <Box className={classes.content}>
+                    <Link href={item.URL} underline="none" color="inherit" target="_blank">
+                      <Typography variant="h6" component="p">
+                        {item.title}
                       </Typography>
                     </Link>
                   </Box>
 
-                </Box>
-                <Box className={classes.content}>
-                  <Link href={item.URL} underline="none" color="inherit" target="_blank">
-                    <Typography variant="h6" component="p">
-                      {item.title}
-                    </Typography>
-                  </Link>
-                </Box>
-
-                <Box className={classes.tagcontent}>
-                  <Box className={classes.tagtext}>
-                  <LocalOfferIcon  style={{ color: "lightgray",fontSize:'1rem' }} />
-                  
+                  <Box className={classes.tagcontent}>
+                    <Box className={classes.tagtext}>
+                      <LocalOfferIcon style={{ color: "lightgray", fontSize: '1rem' }} />
 
 
-                  {item.keytags.map((val, index) => (
-                    // <Chip size="small" key={index} label={val} style={{ margin: "2px", wrap: 'wrap', overflow: 'hidden' }} id={val} onClick={(e) => { setQuery(val); setPageNumber(1) }} />
-                    <div key={index}  className={classes.tagcategorytesting} id={val} onClick={(e) => { setQuery(val); setPageNumber(1) }}>{val}</div>
-                  ))}
-                </Box>
-                </Box>
-                <Box display="flex" justifyContent="flex-start" alignItems="center">
-                  <AccessTimeIcon style={{fontSize:'14px'}} />
+
+                      {item.keytags.map((val, index) => (
+                        // <Chip size="small" key={index} label={val} style={{ margin: "2px", wrap: 'wrap', overflow: 'hidden' }} id={val} onClick={(e) => { setQuery(val); setPageNumber(1) }} />
+                        <div key={index} className={classes.tagcategorytesting} id={val} onClick={(e) => { setQuery(val); setPageNumber(1) }}>{val}</div>
+                      ))}
+                    </Box>
+                  </Box>
+                  <Box display="flex" justifyContent="flex-start" alignItems="center">
+                    <AccessTimeIcon style={{ fontSize: '14px' }} />
                     &nbsp;<Moment filter={toUpperCaseFilter} fromNow>{item.time_elapsed}</Moment>&nbsp;
                   </Box>
-              </CardContent>
-              {/* </CardActionArea> */}
-              {/* <CardActions>
+                </CardContent>
+                {/* </CardActionArea> */}
+                {/* <CardActions>
                 <Button size="small" color="primary">
                   Share
       </Button>
@@ -434,21 +434,21 @@ const Articles = () => {
                   Learn More
       </Button>
               </CardActions> */}
-            </Card>
+              </Card>
 
-          </Grid>
+            </Grid>
 
-        }
-      })}
-      <Grid item xs={12} style={{ marginLeft: '45%' }}>
-        {loading && <CircularProgress disableShrink />}
-        {error && 'Error'}
-        {errormsg}
-        {/* {!hasMore && <Button size="small" color="primary">
-          No more Records
-            </Button>} */}
-      
-      </Grid>
+          }
+        })}
+        <Grid item xs={12} style={{ marginLeft: '45%' }}>
+          {loading && <CircularProgress disableShrink />}
+          {error && 'Error'}
+          {/* {errormsg} */}
+          {!hasMore && <Button size="small" color="primary">
+            No more Records
+            </Button>}
+
+        </Grid>
       </Grid>
     </>
   )

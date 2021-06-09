@@ -316,7 +316,7 @@ const Videos = () => {
                   </Box>
                   <Box pl={1}>
                     <Link href={`https://www.youtube.com/channel/${item.channelId}`} underline="none" color="inherit">
-                      <Typography gutterBottom variant="body3" color="textSecondary" component="p">
+                      <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
                       {item.channel_title.slice(0,20)}
                       </Typography>
@@ -396,7 +396,7 @@ const Videos = () => {
                   </Box>
                   <Box pl={1}>
                     <Link href={`https://www.youtube.com/channel/${item.channelId}`} underline="none" color="inherit">
-                      <Typography gutterBottom variant="body3" color="textSecondary" component="p">
+                      <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
                       {item.channel_title.slice(0,20)}
                       </Typography>
@@ -449,10 +449,10 @@ const Videos = () => {
       <Grid item xs={12} style={{ marginLeft: '45%' }}>
         {loading && <CircularProgress disableShrink />}
         {error && 'Error'}
-        {errormsg}
-        {/* {!hasMore && <Button size="small" color="primary">
+        {/* {errormsg} */}
+        {!hasMore && <Button size="small" color="primary">
           No more Records
-            </Button>} */}
+            </Button>}
       </Grid>
       
       <ModalPortal open={isOpen} vidurl = {videourl} onClose={() => setIsOpen(false)}></ModalPortal>

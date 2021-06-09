@@ -4,12 +4,7 @@ import '../../assets/css/pricing.css'
 import { NavLink } from 'react-router-dom';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Box, Button } from '@material-ui/core';
-import { loadStripe } from "@stripe/stripe-js";
 
-
-
-
-const stripePromise = loadStripe("pk_test_51H2GwkFM3Q6O7DuK3XgFpJhO5snlKligZL0EKLRoyynRKVIfxsPFyN0Z9KPxZmmmYJCwJY7MbnzqKgRybQpiZz7000KK2MEv5c");
 const Pricing = () => {
 const [pricedetails,setPricedetails] = React.useState([]);
 const [isloading,setIsloading]=React.useState(false)
@@ -51,49 +46,6 @@ React.useEffect(() => {
   fetchpayment();
 }, [])
 
-const createCheckoutSession = async (tierval,priceId)=> {
-    const config = {
-        
-      
-            headers: {
-              "Content-Type": "application/json",
-              'Authorization': `JWT ${localStorage.getItem('access')}`,
-            }          
-          
-
-    }
-    const form_data = new FormData();
-    form_data.append('priceid',priceId)
-    form_data.append('tier',tierval)
-    return await axios.post("https://app.kiranvoleti.com/createcheckoutsession/",form_data, config).then(function(result) {
-      return result;
-    });
-  };
-
-
-const checkoutnow = async (e,tierval,priceid) => {
-    e.preventDefault();
-    
-    const stripe = await stripePromise;
-    await createCheckoutSession(tierval,priceid).then((res) => {
-      // Call Stripe.js method to redirect to the new Checkout page
-      // (data.sessionId)
-      
-      localStorage.setItem('pricesession',res.data.sessionId)
-      stripe
-        .redirectToCheckout({
-          sessionId: res.data.sessionId
-        })
-        .then(res=> {
-          console.log(res.data)
-          console.log('is success')
-        });
-      
-    }).catch(err=>{
-      console.log(err.message)
-    })
-
-}
 // React.useEffect(() => {
 //     setPriceinusd({
 //         ...priceinusd,
@@ -145,7 +97,10 @@ const checkoutnow = async (e,tierval,priceid) => {
             </ul>
             {tier === val.tier ? <button className="order-btn">Current Plan</button>:
             val.tier === '1' && +tier > 1 ?
-            null:<button className="order-btn2" onClick={(e)=>checkoutnow(e,val.tier,country==="IN"?val.priceid:val.usdpriceid)}>Checkout</button>
+            null:<NavLink to={{
+                pathname: "/checkout",
+                search: `?tier=${val.tier}&inr=${val.price}&currency=${country}&code=${priceinusd.exchangerateinusd}`,
+            }} className="order-btn">Order Now</NavLink>
             }
         </div>
         }

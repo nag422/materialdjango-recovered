@@ -14,6 +14,9 @@ export default function useVideoSearch(query, pageNumber, orderby) {
     useEffect(() => {
         setVideos([])
         pageNumber=1
+        return () => {
+            setVideos([])
+        }
     }, [query,orderby])
 
     React.useEffect(() => {

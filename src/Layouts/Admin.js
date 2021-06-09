@@ -198,14 +198,14 @@ function Admin({logout,isAuthenticated}) {
            
          (res.data.response.map((val) => {
             
-            // localStorage.setItem('first_name',val.first_name)
-            // localStorage.setItem('last_name',val.last_name)
-            // localStorage.setItem('phone',val.phone)
-            // localStorage.setItem('email',val.email)
-            // localStorage.setItem('usertype',val.is_staff ? (val.is_superuser ? 'Admin': 'Staff') : 'Subscriber')
-            // localStorage.setItem('userid',val.id)
-            // localStorage.setItem('tier',val.tier)
-            // localStorage.setItem('trends',val.trends?'yes':'no')
+            localStorage.setItem('first_name',val.first_name)
+            localStorage.setItem('last_name',val.last_name)
+            localStorage.setItem('phone',val.phone)
+            localStorage.setItem('email',val.email)
+            localStorage.setItem('usertype',val.is_staff ? (val.is_superuser ? 'Admin': 'Staff') : 'Subscriber')
+            localStorage.setItem('userid',val.id)
+            localStorage.setItem('tier',val.tier)
+            localStorage.setItem('trends',val.trends?'yes':'no')
             setUserdata({
                 ...userdata,
                 first_name:val.first_name,
@@ -378,12 +378,14 @@ function Admin({logout,isAuthenticated}) {
                         <ListItemText primary='Videos' />
                     </ListItem>
                     </NavLink>
+                    {+userdata.tier > 1 &&
                     <NavLink to="/tools" activeClassName={classes.activeclass} className={classes.textdecor}>
-                    <ListItem button>
-                        <ListItemIcon><BuildOutlinedIcon fontSize='small' /></ListItemIcon>
-                        <ListItemText primary='Tools' />
-                    </ListItem>
-                    </NavLink></>:null}
+                        <ListItem button>
+                            <ListItemIcon><BuildOutlinedIcon fontSize='small' /></ListItemIcon>
+                            <ListItemText primary='Tools' />
+                        </ListItem>
+                    </NavLink>} </> :null}
+                    
                     {userdata.trends == 'yes'?
                     <NavLink to="/trends" activeClassName={classes.activeclass} className={classes.textdecor}>
                     <ListItem button>

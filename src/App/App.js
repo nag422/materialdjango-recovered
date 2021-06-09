@@ -15,6 +15,7 @@ import Pricing from '../Pages/Data/Pricing';
 import CheckoutForm from '../Pages/Payments/checkout'
 
 
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -74,6 +75,7 @@ function App() {
             {/* <Route exact path="/signup" render={props => <LoginPage {...props} />} /> */}
             {/* <Redirect from="*" to="/login" /> */}
             <Route exact path="/checkout" component= {CheckoutForm} />
+            
             {/*  */}
             <Route exact path="/articles" component= {Admin} />
             <Route exact path="/tools" component= {Admin} />

@@ -13,6 +13,9 @@ export default function useArticleSearch(query, pageNumber, orderby) {
     useEffect(() => {
         setArticles([])
         pageNumber=1
+        return () => {
+            setArticles([])
+        }
     }, [query,orderby])
 
     useEffect(() => {

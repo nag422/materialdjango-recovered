@@ -18,7 +18,7 @@ const Facebook = ({facebookAuthenticate,isAuthenticated}) => {
             console.log('Code: ' + code);
             
             if (isAuthenticated) {
-                return <Redirect to="/profile" />
+                return <Redirect to="/articles" />
             }
 
             if(state && code){

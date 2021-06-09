@@ -29,6 +29,7 @@ import {
 const process_env_REACT_APP_API_URL= "https://app.kiranvoleti.com"
 
 
+
 export const load_user = () => async dispatch => {
     if (localStorage.getItem('access')) {
         const config = {
@@ -52,6 +53,7 @@ export const load_user = () => async dispatch => {
             });
         }
     } else {
+        alert('token not found')
         dispatch({
             type: USER_LOADED_FAIL
         });
@@ -99,7 +101,9 @@ export const checkAuthenticated = () => async dispatch => {
 };
 
 export const googleAuthenticate = (state, code) => async dispacth => {
-    if (state && code && !localStorage.getItem('access')) {
+    localStorage.clear()
+    if (state && code) {
+
         const config ={
             headers: {
                 'Content-Type':'application/x-www-form-urlencoded'
@@ -108,14 +112,12 @@ export const googleAuthenticate = (state, code) => async dispacth => {
         const details ={
             'state':state,
             'code':code,
-            'first_name':'imfirstname'
-            
+            'first_name':'imfirstname'            
         };
         const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&')
         try {
             const res = await axios.post(`${process_env_REACT_APP_API_URL}/auth/o/google-oauth2/?${formBody}`,config);
-            console.log(res.data)
-            alert(res.data)
+            
             dispacth({
                 type: GOOGLE_AUTH_SUCCESS,
                 payload:res.data
@@ -130,11 +132,12 @@ export const googleAuthenticate = (state, code) => async dispacth => {
 
         }
     }
+
 }
 
 export const facebookAuthenticate = (state, code) => async dispacth => {
     
-    if (state && code && !localStorage.getItem('access')) {
+    if (state && code) {
         const config ={
             headers: {
                 'Content-Type':'application/x-www-form-urlencoded'
@@ -181,7 +184,7 @@ export const login = (email, password) => async dispatch => {
             type: LOGIN_SUCCESS,
             payload: res.data
         });
-        return res.data
+        return true
         // dispatch(load_user());
         
     } catch (err) {
@@ -189,6 +192,7 @@ export const login = (email, password) => async dispatch => {
         dispatch({
             type: LOGIN_FAIL
         });
+        return false
     }
 };
 
@@ -198,21 +202,26 @@ export const signup = (first_name, email, provider, password, re_password) => as
             'Content-Type': 'application/json'
         }
     }
+    let returnvalue = true
     
     const body = JSON.stringify({ first_name, email,provider,password, re_password }); 
    
 
     try {
         const res = await axios.post(`${process_env_REACT_APP_API_URL}/auth/users/`, body, config);
-
+        //console.log(res.data)
         dispatch({
             type: SIGNUP_SUCCESS,
             payload: res.data
         });
+        return returnvalue
     } catch (err) {
+        //console.log(err.message)
+        returnvalue = false
         dispatch({
             type: SIGNUP_FAIL
         });
+        return returnvalue
     }
 };
 
@@ -227,6 +236,7 @@ export const verify = (uid, token) => async dispatch => {
 
     try {
         const res = await axios.post(`${process_env_REACT_APP_API_URL}/auth/users/activation/`, body, config);
+        //console.log(res.data)
         
         dispatch({
             type: ACTIVATION_SUCCESS,
@@ -234,7 +244,8 @@ export const verify = (uid, token) => async dispatch => {
         });
         
     } catch (err) {
-        alert(err)
+        alert("Activation is failed")
+        //console.log(err.message)
         dispatch({
             type: ACTIVATION_FAIL
         });
@@ -252,15 +263,17 @@ export const reset_password = (email) => async dispatch => {
 
     try {
         const res = await axios.post(`${process_env_REACT_APP_API_URL}/auth/users/reset_password/`, body, config);
-
+        
         dispatch({
             type: RESET_PASSWORD_SUCCESS,
             payload: res.data
         });
+        return true
     } catch (err) {
         dispatch({
             type: RESET_PASSWORD_FAIL
         });
+        return false
     }
 };
 

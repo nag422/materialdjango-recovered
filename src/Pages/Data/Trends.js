@@ -1,14 +1,13 @@
-import React, { useState, useRef, useCallback } from 'react'
-import useTrendSearch from './useTrendSearch'
-import { CircularProgress, Button, Grid, Avatar, Box, Chip, Link, TextField, MenuItem, InputLabel } from '@material-ui/core';
+import React, { useState } from 'react'
+import { CircularProgress, Button, Grid, Avatar, Box, Link, TextField, MenuItem, InputLabel } from '@material-ui/core';
 import Moment from 'react-moment';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-import PublicIcon from '@material-ui/icons/Public';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
+
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
@@ -381,7 +380,7 @@ const Trends = () => {
                     </Box>
                     <Box pl={1}>
                       <Link href={`https://www.youtube.com/channel/${item.channelId}`} underline="none" color="inherit">
-                        <Typography gutterBottom variant="body3" color="textSecondary" component="p">
+                        <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
                           {item.channel_title.slice(0, 20)}
                         </Typography>
@@ -483,7 +482,7 @@ const Trends = () => {
                     </Box>
                     <Box pl={1}>
                       <Link href={`https://www.youtube.com/channel/${item.channelId}`} underline="none" color="inherit">
-                        <Typography gutterBottom variant="body3" color="textSecondary" component="p">
+                        <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
                           {item.channel_title.slice(0, 20)}
                         </Typography>
@@ -583,7 +582,7 @@ const Trends = () => {
                     </Box>
                     <Box pl={1}>
                       <Link href={`https://www.youtube.com/channel/${item.channelId}`} underline="none" color="inherit">
-                        <Typography gutterBottom variant="body3" color="textSecondary" component="p">
+                        <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
                           {item.channel_title.slice(0, 20)}
                         </Typography>
@@ -684,7 +683,7 @@ const Trends = () => {
                     </Box>
                     <Box pl={1}>
                       <Link href={`https://www.youtube.com/channel/${item.channelId}`} underline="none" color="inherit">
-                        <Typography gutterBottom variant="body3" color="textSecondary" component="p">
+                        <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
                           {item.channel_title.slice(0, 20)}
                         </Typography>
@@ -785,7 +784,7 @@ const Trends = () => {
                     </Box>
                     <Box pl={1}>
                       <Link href={`https://www.youtube.com/channel/${item.channelId}`} underline="none" color="inherit">
-                        <Typography gutterBottom variant="body3" color="textSecondary" component="p">
+                        <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
                           {item.channel_title.slice(0, 20)}
                         </Typography>
@@ -887,7 +886,7 @@ const Trends = () => {
                     </Box>
                     <Box pl={1}>
                       <Link href={`https://www.youtube.com/channel/${item.channelId}`} underline="none" color="inherit">
-                        <Typography gutterBottom variant="body3" color="textSecondary" component="p">
+                        <Typography gutterBottom variant="body2" color="textSecondary" component="p">
 
                           {item.channel_title.slice(0, 20)}
                         </Typography>

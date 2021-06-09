@@ -19,7 +19,13 @@ import * as Yup from 'yup';
 import FormikField from "../../Components/Controls/FormikField";
 import { reset_password } from '../../Actions/auth';
 
-
+import TwitterIcon from '@material-ui/icons/Twitter';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import YouTubeIcon from '@material-ui/icons/YouTube';
+import Alert from '@material-ui/lab/Alert';
+import { CircularProgress } from '@material-ui/core';
 
 function Copyright() {
 
@@ -87,22 +93,35 @@ const initialValues = {
 function ResetPassword({reset_password}) {
     const classes = useStyles();
     const [requestSent, setRequestSent] = React.useState(false);
+    const [loading,setLoading] = React.useState(false)
 
 //    if (isAuthenticated) {
 //        return <Redirect to="/profile" />
 //    }
 
-    
+const socialnavigation = (socialurl) =>{
+    return window.location.assign(socialurl)
+}
 
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
+
+        setLoading(true)
         
-        reset_password(values.email)
-        setRequestSent(true);
+        const resp = await reset_password(values.email)
+        if (resp){
+            setRequestSent(true);
+
+        }else{
+            alert('Network error')
+        }
+        setLoading(false)
+
         
         
     };
-    if (requestSent)
-        return <Redirect to='/login' />
+    // if (requestSent) return <Redirect to='/login' />
+
+    
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -116,6 +135,7 @@ function ResetPassword({reset_password}) {
                     <Typography component="h1" variant="h5">
                         Reset Password
           </Typography>
+         {requestSent && <Alert severity="success">Success! A confirmation link has been sent to your email!</Alert>}
 
                     <Formik
                         initialValues={initialValues}
@@ -153,7 +173,7 @@ function ResetPassword({reset_password}) {
                                         fullWidth                                       
                                         className={classes.submit}
                                     >
-                                        Reset Password
+                                        {loading && <CircularProgress size={20} style={{ color: "#FFF" }} />} Reset Password
                                     </Button>
                                 </Grid>
 
@@ -185,6 +205,15 @@ function ResetPassword({reset_password}) {
             <Box mt={5}>
               <Copyright />
             </Box>
+            <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-around" mt={5}>
+                                            <TwitterIcon style={{color:"#1DA1F2",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.twitter.com/kiranvoleti')} />
+                                            <InstagramIcon style={{color:"#C13584",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.instagram.com/kiranvoletidigital')} />
+                                            <FacebookIcon style={{color:"#4267B2",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.facebook.com/kiranvoleti')} />
+                                            <LinkedInIcon style={{color:"#115293",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.linkedin.com/in/kiranvoleti/')} />
+                                            <YouTubeIcon style={{color:"#FF0000",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.youtube.com/channel/UC7mYifiG7sNeRM9aIKXrYuA')} />
+                                        </Box>
+
+            
 
                                 </Form>
                                 </Grid>

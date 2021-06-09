@@ -5,20 +5,23 @@ import {
   Elements,
 
 } from "@stripe/react-stripe-js";
-
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import axios from "axios";
 import CheckoutForm from './checkoutform';
 import { NavLink, Redirect, useHistory } from 'react-router-dom';
 import { Box, Button, Card, CardContent, CardHeader, Container, Divider, Grid, Input, List, ListItem, ListItemIcon, ListItemText, TextField, Typography } from '@material-ui/core';
-
+import CancelIcon from '@material-ui/icons/Cancel';
 // you should use env variables here to not commit this
 // but it is a public key anyway, so not as sensitive
+
 const stripePromise = loadStripe("pk_test_51H2GwkFM3Q6O7DuK3XgFpJhO5snlKligZL0EKLRoyynRKVIfxsPFyN0Z9KPxZmmmYJCwJY7MbnzqKgRybQpiZz7000KK2MEv5c");
+
 
 const Index = () => {
   const [status, setStatus] = React.useState("ready");
   const [discount, setDiscount] = React.useState('');
   const [discountprice, setDiscountprice] = React.useState(0);
+  const [isvalid, setIsvalid] = React.useState(false);
   let history = useHistory();
 
   const search = window.location.search;
@@ -39,10 +42,48 @@ const Index = () => {
     };
     axios.post("https://app.kiranvoleti.com/save_stripe_info/", formdata, config)
       .then(res => {
-        window.location.replace("/profile")
+        window.location.replace("/articles")
       })
 
   }
+
+  const createCheckoutSession = (priceId)=> {
+    return fetch("https://app.kiranvoleti.com/createcheckoutsession/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+      },
+      body: JSON.stringify({
+        priceId: priceId
+      })
+    }).then(function(result) {
+      return result.json();
+    });
+  };
+
+  const checkout = async () => {
+    const stripe = await stripePromise;
+    await createCheckoutSession("price_1J00jBFM3Q6O7DuKkXlcCRZI").then((data) => {
+      // Call Stripe.js method to redirect to the new Checkout page
+      // (data.sessionId)
+      localStorage.setItem('priceid',data.sessionId)
+      stripe
+        .redirectToCheckout({
+          sessionId: data.sessionId
+        })
+        .then(res=> {
+          console.log(res.data)
+          console.log('is success')
+        });
+      
+    }).catch(err=>{
+      console.log(err.message)
+    })
+
+  }
+
+  
 
 
   React.useEffect(() => {
@@ -57,11 +98,16 @@ const Index = () => {
     .then(res=> {
       if (+res.data.status === 200 ){
         setDiscountprice(res.data.discount)
+        setIsvalid(true)
       }else{
         setDiscountprice(0)
+        setIsvalid(false)
       }
       
         
+    })
+    .catch(err=> {
+      setIsvalid(false)
     })
     
   }, [discount])
@@ -137,8 +183,23 @@ const Index = () => {
                 </Box>
                 <Divider />
                 <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-between" p={3}>
-                  <Typography variant="p" component="p">Discount: </Typography>
-                  <input type="text" onBlur={(e)=>setDiscount(e.target.value)}/>
+                  <Box display="flex" flexDirection="row">
+                    <Typography variant="p" component="p">Discount:</Typography>
+                   {isvalid && 
+                   <>
+                    <CheckCircleIcon color="primary" fontSize="small" />
+                    <Typography variant="p" component="p">coupon is applied</Typography>
+                   </>
+                   }
+                    
+                    
+                    
+                  </Box>
+                  <Box display="flex" flexDirection="row">
+                  
+                  <input type="text" onChange={(e)=>setDiscount(e.target.value)} /> &nbsp;
+                  
+                  </Box>
                 </Box>
                 <Divider />
                 <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-between" p={3}>
@@ -157,11 +218,12 @@ const Index = () => {
         </Box>
             </Card>
           </Grid>
-
+          <button onClick={checkout}>Subscribe</button>
         </Grid>
       </Container>
     </>
-
+// https://app.kiranvoleti.com/thanks?session_id=cs_test_a13vgD4d4miJKQM8qinqGJ4eGo0PwpNdIbjurFDNlf0j0ea0vazWqoIYci
+// session_id=cs_test_a1xKdZuB1mtosBHfVO9dQ2E21Oa5dAvOBWXtuiLGe8kWvLAxdH7kFyAgz6
 
   );
 };

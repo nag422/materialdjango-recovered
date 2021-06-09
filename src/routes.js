@@ -4,7 +4,7 @@ import SettingsPage from './Pages/Settings/index'
 import Login from './Pages/Auth/Login'
 import Articles from './Pages/Data/Articles';
 import Videos from './Pages/Data/Videos';
-import Pricing from './Pages/Data/Pricing';
+// import Pricing from './Pages/Data/Pricing';
 import Tools from './Pages/Data/Tools';
 import Trends from './Pages/Data/Trends';
 

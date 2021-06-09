@@ -1,13 +1,12 @@
 import React from 'react'
 import {
-    Avatar,
-    Box,
+    
     Button,
     Card,
-    CardActions,
+    
     CardContent,
     Divider,
-    Typography,
+    
     CardHeader,
     Paper,
     Grid,
@@ -15,11 +14,11 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form} from 'formik';
 import * as Yup from 'yup';
 import FormikField from "../../Components/Controls/FormikField";
 import FormikRadio from "../../Components/Controls/FormikRadio";
-import axiosInstance from '../../axiosmodelapi';
+
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
 
@@ -102,7 +101,7 @@ const Notifications = ({ className, ...rest }) => {
             >
                 <CardHeader
                     subheader="NewsLetter Subscription"
-                    title="Daily News Letter"
+                    title="News Letter"
                 />
                 <Divider />
                 {alertobject.isopen &&

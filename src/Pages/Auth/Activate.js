@@ -12,11 +12,11 @@ const Activate = ({ verify, match }) => {
 
         await verify(uid, token);
         alert(token)
-        setVerified(true);
+        // setVerified(true);
     };
 
     if (verified)
-        return <Redirect to='/profile' />
+        return <Redirect to='/articles' />
     return (
         <div className='container'>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',marginTop: '200px' }}>

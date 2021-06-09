@@ -1,13 +1,11 @@
 import React from 'react'
 import {
-    Avatar,
-    Box,
-    Button,
+   
     Card,
-    CardActions,
+    
     CardContent,
     Divider,
-    Typography,
+    
     CardHeader,
     Paper,
     Grid,
@@ -15,9 +13,9 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+// import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import FormikField from "../../Components/Controls/FormikField";
+// import FormikField from "../../Components/Controls/FormikField";
 import {NavLink} from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
@@ -34,21 +32,21 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const notificationschema = Yup.object().shape({
-    email: Yup.string()
-    .min(2, 'Too Short!')
-    .required("Email is Should not be Empty"),    
-})
-const initialValues = {
-    email: ""
-  };
+// const notificationschema = Yup.object().shape({
+//     email: Yup.string()
+//     .min(2, 'Too Short!')
+//     .required("Email is Should not be Empty"),    
+// })
+// const initialValues = {
+//     email: ""
+//   };
 
 
 const Security = ({ className, ...rest }) => {
     const classes = useStyles();
-    const handleSubmit = (values) => {
-        alert(JSON.stringify(values));
-      };
+    // const handleSubmit = (values) => {
+    //     alert(JSON.stringify(values));
+    //   };
 
     return (
         <>

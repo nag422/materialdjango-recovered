@@ -20,6 +20,11 @@ import FormikField from "../../Components/Controls/FormikField";
 
 import { reset_password_confirm } from "../../Actions/auth";
 
+import TwitterIcon from '@material-ui/icons/Twitter';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 
 function Copyright() {
 
@@ -38,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(https://app.kiranvoleti.com/static/assets/images/login3.jpeg)',
+        backgroundImage: 'url(https://app.kiranvoleti.com/static/assets/images/login3.jpg)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -94,7 +99,9 @@ function ResetPasswordConfirm(props) {
 
     const [requestSent, setRequestSent] = React.useState(false);
 
-   
+    const socialnavigation = (socialurl) =>{
+        return window.location.assign(socialurl)
+    }
     
 
     const handleSubmit = (values) => {
@@ -205,6 +212,13 @@ function ResetPasswordConfirm(props) {
             <Box mt={5}>
               <Copyright />
             </Box>
+            <Box display="flex" flexDirection="row" alignContent="center" justifyContent="space-around" mt={5}>
+                                            <TwitterIcon style={{color:"#1DA1F2",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.twitter.com/kiranvoleti')} />
+                                            <InstagramIcon style={{color:"#C13584",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.instagram.com/kiranvoletidigital')} />
+                                            <FacebookIcon style={{color:"#4267B2",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.facebook.com/kiranvoleti')} />
+                                            <LinkedInIcon style={{color:"#115293",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.linkedin.com/in/kiranvoleti/')} />
+                                            <YouTubeIcon style={{color:"#FF0000",cursor:"pointer"}} onClick={()=>socialnavigation('https://www.youtube.com/channel/UC7mYifiG7sNeRM9aIKXrYuA')} />
+                                        </Box>
 
                                 </Form>
                                 </Grid>
